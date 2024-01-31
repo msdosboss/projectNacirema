@@ -1,0 +1,39 @@
+Goon/Peon
+
+    Stat mods (tenative numbers)
+        HP *1.2
+        IQ *.8
+        ST *1.2
+        Emp *1
+        Luck *1
+        Agi *.8
+
+    Spells
+        Intimidation (Active. Lowers hit chance of target)
+
+        Blunt Force (Passive. Attack has a higher chance to stun)
+
+        Boorish Antics (Active. Increase threat on target)
+
+        Execution (Active. This spell will have a req of the target being at <= x HP. If they are at this req the spell will kill)
+
+        Gimp (Active. Slows opponent's movement for x turns)
+
+        Turtle stance (Active. Increase defense and decreases attack)
+
+        Balanced stance (Active. Netural affect)
+
+        Wolf stance (Active. Increase attack and decreases defense)
+
+        Maelstrom (Active. AoE damage that scales based off of your auto damage)
+
+        Shield wall (Requires shield) (Active. Reduces incoming damage by x% for y turns)
+
+        Disarm (Passive. Your attacks have a chance to disarm an opponent for x turns)
+
+        Displacement (Passive. Your attacks have a chance to displcae your opponentx squares in any direction)
+
+        Charge (Active. Will move you towards your targets position. There will be 3 possible outcomes.
+        It could stun the target and move you towards the target, it could just moves you towards the target, and it could miss the target making you go past them and stunning the caster of the spell.
+        These 3 outcomes will be affected by your targets agi)
+

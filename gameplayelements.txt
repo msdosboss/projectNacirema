@@ -1,0 +1,55 @@
+Characters will be made up of different stats, these stat will be:
+    
+    Strength (Strength will impact your physical attack. Strength may also affect atheletic feats)
+
+    IQ (IQ will scale your spells damage for IQ based classes. There may also be other checks related to it)
+
+    Agility (Agility will impact speed. You can mostly think about it as dex from DnD)
+
+    Luck (Luck will affectg RNG aspects of the game such as encounters, loot, ect)
+
+    HP (self explanatory)
+
+    Empathy (Used for certian spells / classes)
+
+Characters will have different types of equipment that they can equip. These will be:
+
+    Head
+    Shoulder
+    Chest
+    Pants
+    Boots
+    Trinkets
+    Weapon (Two hands (sword, staff, gun), One hand(dagger, shield, wand, gun))
+
+The equipment that the character will wear will consist of stats that are seperate from the base stats. These stats are:
+
+    Armor (reduces physical damage)
+
+    Magic resist (reduces magic damage (There will be subtypes for this))
+
+    Crit rate (these increase both crit rate with spells and physical attacks)
+
+    Spell power (scales your spell damage)
+
+    Attack power (scale your physical attack damage)
+
+    Hit rate (increases chance to hit)
+
+    evasion (decreases chance to get hit)
+
+    crit reduction (reduces the amount of damage crit strikes do)
+
+Each character will have a class. These classes will affect base stats, spell availability, talent trees, ect. These classes will be:
+
+    Scientist
+    Ranger
+    Peon/Goon
+    Gragle (buff class)
+    Evil ritual magician
+    Fed (spy/rouge class)
+    enpath (heals based on empathy)
+
+
+
+        

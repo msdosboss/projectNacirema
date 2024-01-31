@@ -1,0 +1,24 @@
+Fed
+
+    Stat mods (tenative numbers)
+        HP *1
+        IQ *1.2
+        ST *.8
+        Emp *.7
+        Luck *1
+        Agi *1.2
+
+    Spells
+        Disquise (Active. Pass as member for any faction)
+
+        Weave (Active. Deal a small amount of damage and build up a weave stack debuff)
+
+        Strike (Active. Absorbs all the weave stacks and deal damage scaling based on amount of weave stack. Needs a min of 2 stacks)
+
+        Nothing to see here (Used out of combat) (Forces the target to make an opposed IQ check to leave the premises)
+
+        Grooming (Used out of combat) (Active. Forces the target to make an opposed IQ check if the target fails the check they will then commit a terrorist act that lowers their rep)
+
+        Poison (Active. applies posion to weapon)
+
+        Remote view (Used out of combat)(Active. Place a bug in a given area that allows the fed to observe the area where the bug is placed. This bug is usable until it is detected and destroyed)

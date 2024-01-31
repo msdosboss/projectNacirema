@@ -1,0 +1,40 @@
+
+(A very brief exaplation of how these system will probably be implemented)
+
+    Areas in the game will be structured in an "object" (the type of object depends on which langauge I use) this will be the 2nd most outer layer called zones.
+    Each of the zone will be connected in defferent ways. Each of these zones will be a grid that will contain a 2d array of an objects called square. each of 
+    these square objects will hold information such as who is on the square(be it player or npc), the environment of the square, any loot that is on the square,
+    and enterences to places. each of the places will use the zone object just on a smaller scale and maybe not using some of the atributes. when 2 or more characters
+    are on one square they can interact with each other. Each characterr will be repersented as an object that contains key information about their character such
+    as their stats, their spells/attacks, the equipment they are wearing, the loot they are carring.
+
+(! Means in progress !! Means done)
+
+(Things that I need to research)
+
+    Client/server model that makes sense
+    How to implement SDL 2 into the client
+    Most data such as items, character information, ect. Will be stored in an SQL database. I will need to research how to interact with a sql database via C
+    This will need to be multiple file so I need to learn how make works
+
+
+(Bullet point list of what I need to do (not exhaustive yet))
+    SQL server
+        create a database
+        create tables with in the database
+        populate the tables
+
+    Server
+        Communicate with client
+        Create world structure!
+        Create zone structure!
+        Create square structure!
+        Create character structure!
+        Create item structure!
+        Create class structure!
+        Create combat function
+
+
+    
+    Client
+        Communicate with server
