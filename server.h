@@ -1,4 +1,4 @@
-#if !defined SEVER
+#if !defined SERVER
 
 
 
@@ -54,8 +54,8 @@ struct equipableItem{
 struct item {
     char *name;
     char *description;
-    struct equipableItem;
-    struct equipableItemWeapon;
+    struct equipableItem equip;
+    struct equipableItemWeapon weapon;
 
 };
 
@@ -63,9 +63,9 @@ struct item {
 struct character{
     //A lot of these atributes will be inherited from the SQL server
     struct item *items;
-    struct class;
-    struct equipment;
-    struct stats;
+    struct class characterClass;
+    struct equipment characterEquipment;
+    struct characterStats stats;
     int level;
 };
 
@@ -83,4 +83,4 @@ struct world {
 
 
 #endif
-#define SEVER 1
+#define SERVER 1
