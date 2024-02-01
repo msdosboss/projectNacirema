@@ -25,7 +25,8 @@
         populate the tables
 
     Server
-        Communicate with client
+        Communicate with client!!
+            use possix send/recv!!
         Create world structure!
         Create zone structure!
         Create square structure!
@@ -37,4 +38,5 @@
 
     
     Client
-        Communicate with server
+        Communicate with server!!
+            use possix send/recv!!
