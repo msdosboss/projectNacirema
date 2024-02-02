@@ -4,8 +4,36 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <errno.h>
+#include <mysql/mysql.h>
+
+char* sqlConnector(){
+    MYSQL *conn;
+    if(!(conn = mysql_init(0))){
+        return "failed to connect";
+    }
+    if(!mysql_real_connect(
+        conn,   //connection
+        "127.0.0.1",     //host
+        "sqlServer",    //user
+        "sqlpass",      //pass
+        "projectNacirema",   //default database
+        3306,       //port
+        NULL,       //path to socket file
+        0
+
+    )){
+        mysql_close(conn);
+        return "failed to connect2";
+    }
+
+    mysql_close(conn);
+
+    return "the end";
+}
+
 
 int main(int argc, char *argv[]){
+    printf("%s\n",sqlConnector());
     int port = 5456;
     for(int i = 1; i < argc; i++){
         if(strcmp(argv[i],"--port") == 0 || strcmp(argv[i], "-p") == 0){
