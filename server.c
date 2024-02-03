@@ -4,10 +4,12 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <errno.h>
-#include <mysql/mysql.h>
+#include <mysql/mysql.h>            //This is how I have been compiling with this library gcc -o server -L/usr/lib/mysql -lmysqlclient server.c
 
 char* sqlConnector(){
     MYSQL *conn;
+    MYSQL_RES *res;
+    MYSQL_ROW row;
     if(!(conn = mysql_init(0))){
         return "failed to connect";
     }
@@ -19,11 +21,30 @@ char* sqlConnector(){
         "projectNacirema",   //default database
         3306,       //port
         NULL,       //path to socket file
-        0
+        0           //flags
 
     )){
+        fprintf(stderr, "Error connecting to Server: %s\n", mysql_error(conn));
         mysql_close(conn);
         return "failed to connect2";
+    }
+    char buf[256];
+    if(mysql_query(conn, "SELECT * FROM orca;")){
+        fprintf(stderr, "Error sending query: %s\n", mysql_error(conn));
+        mysql_close(conn);
+        return "failed to query";
+    }
+    if((res = mysql_use_result(conn)) == NULL){
+        fprintf(stderr, "Error using result: %s\n", mysql_error(conn));
+        mysql_close(conn);
+        return "failed to use result";
+    }
+    printf("query results are:\n");
+    while((row = mysql_fetch_row(res)) != NULL){
+        for(int i = 0; i < mysql_num_fields(res); i++){
+            printf("\n%s", row[i] ? row[i] : "NULL");
+        }
+        printf("\n");
     }
 
     mysql_close(conn);
