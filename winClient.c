@@ -108,7 +108,7 @@ int main(int argc, char *argv[]){
         else{
             printf("recv error\n");
         }
-    } while(iResult > 0)
+    } while(iResult > 0);
 
 
     //clean up
