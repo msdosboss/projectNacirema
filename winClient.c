@@ -17,9 +17,10 @@
 
 int main(int argc, char *argv[]){
     const char *defaultPort = "5456";
-    char *port = defaultPort;
-    if(agrc > 1){
-        if(port = port(argc, argv) == NULL){
+    char *port;
+    strcpy(port, defaultPort)
+    if(argc > 1){
+        if((port = port(argc, argv)) == NULL){
             return -1
         }
     }
@@ -51,7 +52,7 @@ int main(int argc, char *argv[]){
 
     for(ptr = result; ptr != NULL; ptr = ptr->ai_next){
         //create socket for connecting to server
-        connectSocket = socket(ptr->ai_family, ptr->ai_socktype);
+        connectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
         if(connectSocket == INVAILD_SOCKET){
             printf("socket failed to create");
             WSACleanup();
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]){
         }
 
         //connect to server
-        iResult = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen, ptr->ai_protocol);
+        iResult = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
         if(iResult == SOCKET_ERROR){
             closesocket(connectSocket);
             connectSocket = INVAILD_SOCKET;
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]){
     printf("Byte sent: %ld\n", iResult);
 
     //shutdown the connection since no more data will be sent
-    iResult = shutdown(connectSocket, SD_SEND)
+    iResult = shutdown(connectSocket, SD_SEND);
     if(iResult == SOCKET_ERROR){
         printf("shutdown error\n");
         closesocket(connectSocket);
