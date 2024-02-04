@@ -42,6 +42,7 @@ char* sqlConnector(){
     printf("query results are:\n");
     while((row = mysql_fetch_row(res)) != NULL){
         for(int i = 0; i < mysql_num_fields(res); i++){
+            printf("\nis this for loop running?");
             printf("\n%s", row[i] ? row[i] : "NULL");
         }
         printf("\n");
@@ -73,9 +74,9 @@ int main(int argc, char *argv[]){
         return -1;
     }
     struct sockaddr_in addr;
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = INADDR_ANY;
-    addr.sin_port = htons(port);
+    addr.sin_family = AF_INET;              //ipv4
+    addr.sin_addr.s_addr = INADDR_ANY;      //setting bound ip address
+    addr.sin_port = htons(port);            //port
 
     if(bind(fd, (struct sockaddr*) &addr, sizeof(addr))){
         perror("Bind failed");
