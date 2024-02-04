@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include "networking.h"
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
 #pragma comment (lib, "Ws2_32.lib")
@@ -12,8 +13,29 @@
 
 #define BUFFLEN 512
 
+char *port(int argc, char *argv[]){
+    for(int i = 1; i < argc; i++){
+        if(strcmp(argv[i],"--port") == 0 || strcmp(argv[i], "-p") == 0){
+            i++;
+            port = atoi(argv[i]);
+            if(port == 0){
+                printf("that is not a valid port\n");
+                return NULL;
+            }
+            return argv[i];
+        }
+    }
+}
+
 int main(int argc, char *argv[]){
     const char *defaultPort = "5456";
+    char *port = defaultPort;
+    if(agrc > 1){
+        if(port = port(argc, argv) == NULL){
+            return -1
+        }
+    }
+    }
     WSADATA wsaData;
     SOCKET connectSocket = INVAILD_SOCKET;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
