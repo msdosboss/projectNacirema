@@ -35,7 +35,6 @@ int main(int argc, char *argv[]){
             return -1
         }
     }
-    }
     WSADATA wsaData;
     SOCKET connectSocket = INVAILD_SOCKET;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
@@ -103,7 +102,7 @@ int main(int argc, char *argv[]){
     //shutdown the connection since no more data will be sent
     iResult = shutdown(connectSocket, SD_SEND)
     if(iResult == SOCKET_ERROR){
-        printf("shutdown erro\n");
+        printf("shutdown error\n");
         closesocket(connectSocket);
         WSACleanup();
         return 1;

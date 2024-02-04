@@ -5,6 +5,8 @@
 #include <netdb.h>
 #include <errno.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 int main(int argc, char *argv[]){
     int port = 5456;
@@ -43,8 +45,10 @@ int main(int argc, char *argv[]){
         }
 
 
-        char msg[1024];
-        gets(msg);
+        char *msg;
+        size_t len = 0;
+        getline(&msg, &len, stdin);
+
         if(strcmp(msg, "closeclient") == 0)
             break;
         
