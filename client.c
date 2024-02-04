@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
         addr.sin_port = htons(port);
 
         char addrstr[NI_MAXHOST + NI_MAXSERV + 1];
-        snprintf(addrstr, sizeof(addrstr), "127.0.0.1:%d", port);
+        snprintf(addrstr, sizeof(addrstr), "10.0.0.193:%d", port);
     
         //convert from string to binary storing the addr in addr.sin_addr
         inet_pton(AF_INET, addrstr, &addr.sin_addr);
