@@ -13,11 +13,11 @@
 #define BUFFLEN 512
 
 int main(int argc, char *argv[]){
-    int port = 5456;
+    const char *defaultPort = "5456";
     WSADATA wsaData;
     SOCKET connectSocket = INVAILD_SOCKET;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
-    const char *buf "window socket send";
+    const char *buf = "window socket send";
     char recvbuf[BUFFLEN];
     int iResult;
     int recvbuflen = BUFFLEN;
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
         }
 
         //connect to server
-        iResult = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+        iResult = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen, ptr->ai_protocol);
         if(iResult == SOCKET_ERROR){
             closesocket(connectSocket);
             connectSocket = INVAILD_SOCKET;
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
     if(connectSocket == INVAILD_SOCKET){
         printf("Unable to connect to server");
         WSACleanup();
-        retrun 1;
+        return 1;
     }
     
     //Send an initial buffer
@@ -79,7 +79,8 @@ int main(int argc, char *argv[]){
     printf("Byte sent: %ld\n", iResult);
 
     //shutdown the connection since no more data will be sent
-    iResult = shutdown(connectSocket, SD_SEND){
+    iResult = shutdown(connectSocket, SD_SEND)
+    if(iResult == SOCKET_ERROR){
         printf("shutdown erro\n");
         closesocket(connectSocket);
         WSACleanup();
