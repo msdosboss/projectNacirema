@@ -3,3 +3,4 @@ Project Nacirema (combat system outline)
 Combat will be a turn based system that will consist of 2 or more characters taking turns attacking each other. The outcomes will be affected by characters
 stats, character choosen spell, environment, movement, and status condtions. The amount of actions per turn is based on agility. To compensate the slower
 characters will do more damage per action. Once you enter combat your movement shall be limited by your agility.
+
