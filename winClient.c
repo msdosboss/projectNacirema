@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
     strcpy(port, defaultPort);
     if(argc > 1){
         if((port = port(argc, argv)) == NULL){
-            return -1
+            return -1;
         }
     }
     WSADATA wsaData;
