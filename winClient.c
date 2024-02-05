@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
         }
     }
     WSADATA wsaData;
-    SOCKET connectSocket = INVAILD_SOCKET;
+    SOCKET connectSocket = INVALID_SOCKET;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
     const char *buf = "window socket send";
     char recvbuf[BUFFLEN];
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
     for(ptr = result; ptr != NULL; ptr = ptr->ai_next){
         //create socket for connecting to server
         connectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-        if(connectSocket == INVAILD_SOCKET){
+        if(connectSocket == INVALID_SOCKET){
             printf("socket failed to create");
             WSACleanup();
             return 1;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
         iResult = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
         if(iResult == SOCKET_ERROR){
             closesocket(connectSocket);
-            connectSocket = INVAILD_SOCKET;
+            connectSocket = INVALID_SOCKET;
             continue;
         }
         break;
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]){
 
     freeaddrinfo(result);
     
-    if(connectSocket == INVAILD_SOCKET){
+    if(connectSocket == INVALID_SOCKET){
         printf("Unable to connect to server");
         WSACleanup();
         return 1;
