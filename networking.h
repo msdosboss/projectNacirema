@@ -1,5 +1,5 @@
 #if !defined NETWORKING
-char *port(int, char*[]);
+char *inputPort(int, char*[]);
 
 #endif
 #define NETWORKING 1

@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     char *port;
     strcpy(port, defaultPort);
     if(argc > 1){
-        if((port = port(argc, argv)) == NULL){
+        if((port = inputPortPort(argc, argv)) == NULL){
             return -1;
         }
     }
