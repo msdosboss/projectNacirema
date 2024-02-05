@@ -18,7 +18,7 @@
 int main(int argc, char *argv[]){
     const char *defaultPort = "5456";
     char *port;
-    strcpy(port, defaultPort)
+    strcpy(port, defaultPort);
     if(argc > 1){
         if((port = port(argc, argv)) == NULL){
             return -1
