@@ -17,18 +17,15 @@
 #define BUFFLEN 512
 
 int main(int argc, char *argv[]){
-    printf("first line");
     const char *defaultPort = "5456";
     char *port;
     port = malloc(sizeof(char) * (strlen(defaultPort) + 1));
     strcpy(port, defaultPort);
-    printf("after\n");
     if(argc > 1){
         if((port = inputPort(argc, argv)) == NULL){
             return -1;
         }
     }
-    printf("second line");
     WSADATA wsaData;
     SOCKET connectSocket = INVALID_SOCKET;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
@@ -47,7 +44,6 @@ int main(int argc, char *argv[]){
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
 
-    printf("before getaddrinfo()\n");
     //resolve the server address and port
     iResult = getaddrinfo("10.0.0.193", port, &hints, &result);
     if(iResult){
