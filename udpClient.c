@@ -24,7 +24,8 @@ int main(int argc, char *argv[]){
 
 
     while(1){
-        const int fd = socket(AF_INET, SOCK_STREAM, 0); //SOCK_STREAM
+        socklen_t addrLen;
+        const int fd = socket(AF_INET, SOCK_DGRAM, 0); //SOCK_STREAM
         if(fd == -1){
             perror("socket create failed");
             return -1;
@@ -39,10 +40,10 @@ int main(int argc, char *argv[]){
         //convert from string to binary storing the addr in addr.sin_addr
         inet_pton(AF_INET, addrstr, &addr.sin_addr);
 
-        if(connect(fd, (struct sockaddr*)&addr, sizeof(addr))){
+        /*if(connect(fd, (struct sockaddr*)&addr, sizeof(addr))){
             perror("can not connect");
             return -2;
-        }
+        }*/
 
 
         char *msg;
@@ -52,13 +53,13 @@ int main(int argc, char *argv[]){
         if(strcmp(msg, "closeclient") == 0)
             break;
         
-        if(send(fd, msg, strlen(msg) + 1, 0) < 0){
+        if(sendto(fd, msg, strlen(msg) + 1, 0, (struct sockaddr *) &addr, sizeof(addr)) < 0){
             perror("Failed to send");
             return -3;
         }
  
         char response[1024];
-        if(recv(fd, response, sizeof(response), 0) < 0){
+        if(recvfrom(fd, response, sizeof(response), 0, (struct sockaddr *) &addr, &addrLen) < 0){
             perror("Failed to recv");
             return -4;
         }

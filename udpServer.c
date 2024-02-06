@@ -97,7 +97,7 @@ int main(int argc, char *argv[]){
         }
     }
     
-    const int fd = socket(AF_INET, SOCK_STREAM, 0); //SOCK_STREAM
+    const int fd = socket(AF_INET, SOCK_DGRAM, 0); //SOCK_STREAM
     if(fd == -1){
         perror("socket failed to create\n");
         return -1;
@@ -113,25 +113,16 @@ int main(int argc, char *argv[]){
     }
     socklen_t addrLen = sizeof(addr);
 
-    if(listen(fd, 10)){
-        perror("Listen failed");
-        return -3;
-    }
     //accept connections
     while(1){
-        struct sockaddr_storage caddr;
+        struct sockaddr_in caddr;
+        memset(&caddr, 0, sizeof(caddr));
         socklen_t caddrLen = sizeof(caddr);
-        int cfd = accept(fd, (struct sockaddr*) &caddr, &caddrLen);
-        if(cfd == -1){
-            perror("accept failed");
-            return -4;
-        }
         char buf[1024];
-        if(recv(cfd, buf, sizeof(buf), 0) > 0){
-            send(cfd, "Orca", sizeof("Orca") + 1, 0);
+        if(recvfrom(fd, buf, sizeof(buf), 0, (struct sockaddr *) &caddr, &caddrLen) > 0){
+            sendto(fd, "Orca", sizeof("Orca") + 1, 0, (struct sockaddr *) &caddr, caddrLen);
         }
         printf("%s\n", buf);
-        close(cfd);
         if(strcmp(buf,"close") == 0){
             break;
         }
