@@ -2,11 +2,11 @@
 char *inputPort(int, char*[]);
 
 struct packet{
-    struct packetHeader;
-    struct segHeader;
-    struct segType;
-    struct ipcHeader
-}
+    //struct packetHeader;
+    //struct segHeader;
+    //struct segType;
+    //struct ipcHeader;
+};
 
 
 #endif

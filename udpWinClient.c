@@ -110,7 +110,7 @@ int main(int argc, char *argv[]){
     }
 
     do{
-        iResult = recvfrom(connectSocket, recvbuf, recvbuflen, 0, &saddr, &addrLen);
+        iResult = recvfrom(connectSocket, recvbuf, recvbuflen, 0, (struct sockaddr *) &sAddr, &addrLen);
         if(iResult > 0){
             printf("recivied: %s from server\n", recvbuf);
         }
