@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
             return -1;
         }
     }
-    socklen_t addrLen;w
+    socklen_t addrLen;
     WSADATA wsaData;
     SOCKET connectSocket = INVALID_SOCKET;
     struct addrinfo *result = NULL, *ptr = NULL, hints;
@@ -108,6 +108,7 @@ int main(int argc, char *argv[]){
         }
         else{
             printf("recv error\n");
+            perror("\n");
         }
     } while(iResult > 0);
 
@@ -120,3 +121,6 @@ int main(int argc, char *argv[]){
 
     return 0;
 }
+
+//iResult = recvfrom(connectSocket, recvbuf, recvbuflen, 0, (struct sockaddr *) &sAddr, &addrLen);
+//          recvfrom(fd, response, sizeof(response), 0, (struct sockaddr *) &addr, &addrLen)
