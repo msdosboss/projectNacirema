@@ -71,6 +71,7 @@ int main(int argc, char *argv[]){
     sAddr.sin_family = AF_INET;
     sAddr.sin_port = htons(atoi(port));
     sAddr.sin_addr.s_addr = inet_addr("10.0.0.193");
+    addrLen = sizeof(sAddr);
     
     if(connectSocket == INVALID_SOCKET){
         printf("Unable to connect to server");
@@ -90,7 +91,7 @@ int main(int argc, char *argv[]){
     printf("Byte sent: %ld\n", iResult);
 
     //shutdown the connection since no more data will be sent
-    iResult = shutdown(connectSocket, SD_SEND);
+    //iResult = shutdown(connectSocket, SD_SEND);
     if(iResult == SOCKET_ERROR){
         printf("shutdown error\n");
         closesocket(connectSocket);
@@ -99,7 +100,7 @@ int main(int argc, char *argv[]){
     }
 
     do{
-        iResult = recvfrom(connectSocket, recvbuf, recvbuflen, 0, (struct sockaddr *) &sAddr, &addrLen);
+        iResult = recvfrom(connectSocket, recvbuf, sizeof(recvbuf), 0, (struct sockaddr *) &sAddr, &addrLen);
         if(iResult > 0){
             printf("recivied: %s from server\n", recvbuf);
         }
@@ -107,7 +108,7 @@ int main(int argc, char *argv[]){
             printf("connection closed\n");
         }
         else{
-            printf("recv error\n");
+            printf("recv error\n iResult = %d\n", WSAGetLastError());
             perror("\n");
         }
     } while(iResult > 0);
