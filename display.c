@@ -1,3 +1,5 @@
+//Compile this on linux
+//gcc -o display display.c `sdl2-config --cflags --libs`
 //Compile this on windows: 
 //		gcc display.c -I"SDL2\include\SDL2" -L"SDL2\lib" -Wall -lmingw32 -lSDL2main -lSDL2 -o display.exe
 #include <stdio.h>
