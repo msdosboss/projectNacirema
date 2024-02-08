@@ -20,30 +20,34 @@ struct armorStats{
     int critReduction;
 };
 
+
+struct equipableItemWeapon{
+    int isWeapon;
+    int type;           //type map 0 = dagger, 1 = sword, 2 = shield, 3 = staff, 4 = wand, 5 = gun
+    int damage;
+
+};
+
+
 struct equipment{
-    struct item head;
-    struct item shoulder;
-    struct item chest;
-    struct item pants;
-    struct item boots;
-    struct item trinket1;
-    struct item trinket2;
+    //struct item head;
+    //struct item shoulder;
+    //struct item chest;
+    //struct item pants;
+    //struct item boots;
+    //struct item trinket1;
+    //struct item trinket2;
+    struct equipableItemWeapon weapon;
 };
 
 struct spell{
     char *name;
     int levelReq;
-}
+};
 
 struct class{
     struct spell *spells;
     
-};
-
-struct equipableItemWeapon{
-    int isWeapon;
-    int type;           //type map 0 = dagger, 1 = sword, 2 = shield, 3 = staff, 4 = wand, 5 = gun
-
 };
 
 struct equipableItem{
@@ -55,7 +59,6 @@ struct item {
     char *name;
     char *description;
     struct equipableItem equip;
-    struct equipableItemWeapon weapon;
 
 };
 
@@ -67,6 +70,7 @@ struct character{
     struct equipment characterEquipment;
     struct characterStats stats;
     int level;
+    int health;
 };
 
 struct square {
