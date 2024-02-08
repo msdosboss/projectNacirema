@@ -105,7 +105,7 @@ int main(int argc, char* argv[]){
     rect.x = (int) x_pos;
     rect.y = (int) y_pos;
     /* Draw the rectangle */
-    SDL_SetRenderDrawColor(rend, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(rend, 255, 0, 255, 127);
     SDL_RenderFillRect(rend, &rect);
     /* Draw to window and loop */
     SDL_RenderPresent(rend);
