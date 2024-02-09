@@ -4,3 +4,11 @@ Combat will be a turn based system that will consist of 2 or more characters tak
 stats, character choosen spell, environment, movement, and status condtions. The amount of actions per turn is based on agility. To compensate the slower
 characters will do more damage per action. Once you enter combat your movement shall be limited by your agility.
 
+Combat Start: Whomever initiates combat attacks first.
+
+How many attacks one gets scales with their AGI.
+
+Different Consumables will use different amounts/types of actions depending on the item.
+
+Different classes will have varied movement options that affect what they can accomplish in a given round.
+

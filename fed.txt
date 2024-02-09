@@ -17,8 +17,25 @@ Fed
 
         Nothing to see here (Used out of combat) (Forces the target to make an opposed IQ check to leave the premises)
 
-        Grooming (Used out of combat) (Active. Forces the target to make an opposed IQ check if the target fails the check they will then commit a terrorist act that lowers their rep)
+        Entrapment (Used out of combat) Requires Disguise to take snd must be used while in disguise. Target must be in terrorist element or in at risk group
+        (Active. Forces the target to make an opposed IQ check if the target fails the check they wil have their cover blown and be targetted by either their
+        opposing faction or allied FED group)
 
         Poison (Active. applies posion to weapon)
 
         Remote view (Used out of combat)(Active. Place a bug in a given area that allows the fed to observe the area where the bug is placed. This bug is usable until it is detected and destroyed)
+        
+        Confiscate: When sneaking, take some of a target's resources. (Probably needs a cooldown period)
+
+        Sneak: Hide and become invisible to your foes. You have % chance of succeeding in stealth and the chance of success increases the more AGI you have.
+        Certain actions require being in Sneak to activate. After a certain time increment one will have to make another Sneak attempt to stay hidden.
+
+        Assination: When initating combat against an unaware opponent while in sneak get burst damage on your attack if it hits.
+
+        PsyOp: Move Requires Disguise Spell faction disposition for another character by x increment(s) for y time increment.
+
+        Interrogation: Target must make opposed IQ check or lose disposition with their current faction, putting the fed one positive increment in their faction
+
+        
+
+
