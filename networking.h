@@ -1,8 +1,4 @@
 #if !defined NETWORKING
-char *inputPort(int, char*[]);
-void bufferMalloc(struct Buffer *, int, int);
-void writeInt(struct Buffer *, uint32_t);
-uint32_t readInt(struct Buffer *);
 
 struct packet{
     //struct packetHeader;
@@ -17,6 +13,11 @@ struct Buffer{
     int size;
     int index;
 };
+
+char *inputPort(int, char*[]);
+void bufferMalloc(struct Buffer *, int, int);
+void writeInt(struct Buffer *, uint32_t);
+uint32_t readInt(struct Buffer *);
 
 #endif
 #define NETWORKING 1
