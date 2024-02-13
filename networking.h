@@ -9,5 +9,11 @@ struct packet{
 };
 
 
+struct Buffer{
+    uint8_t *data;
+    int size;
+    int index;
+};
+
 #endif
 #define NETWORKING 1
