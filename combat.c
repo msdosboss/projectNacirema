@@ -8,7 +8,7 @@ void potion(struct character *player){
     player->health = player->health + 5;
 }
 
-int selectItem(struct character *player, char *item){
+int selectItem(struct character *player, char *item, struct character player2){
     for(int i = 0; player->items[i].name != NULL; i++){
         if(strcmp(item ,player->items[i].name) == 0){
             if(strcmp(item, "potion") == 0){
@@ -26,35 +26,35 @@ void listitems(struct item *items){
     }
 }
 
-
 void combat(struct character *player1, struct character *player2){
-    int playerTurn = 0;
-    char *playerChoice;
     size_t len = 0;
+    char *playerChoice;
+    printf("\nwhat would you like to do?\n enter item for items \n enter attack to attack\n");
+    getline(&playerChoice, &len, stdin);
+    playerChoice[strcspn(playerChoice, "\r\n")] = 0;        //removes EOL(end of line)
+    if(strcmp(playerChoice,"attack") == 0){
+        player2->health = player2->health - player1->characterEquipment.weapon.damage;
+    }
+    if(strcmp(playerChoice,"item") == 0){
+        listitems(player1->items);
+        getline(&playerChoice, &len, stdin);
+        playerChoice[strcspn(playerChoice, "\r\n")] = 0;
+        printf("\n%d\n", selectItem(player1, playerChoice, player2));
+    }
+}
+
+void combatLoop(struct character *player1, struct character *player2){
+    int playerTurn = 0;
     while(player1->health > 0 && player2->health > 0){
         printf("player1 health = %d\nplayer2 health = %d\n", player1->health,player2->health);
         if(playerTurn == 0){
-            printf("\nwhat would you like to do?\n 1:Select item \n 2:attack\n");
-            getline(&playerChoice, &len, stdin);
-            playerChoice[strcspn(playerChoice, "\r\n")] = 0;
-            if(strcmp(playerChoice,"attack") == 0){
-                player2->health = player2->health - player1->characterEquipment.weapon.damage;
-            }
-            if(strcmp(playerChoice,"item") == 0){
-                listitems(player1->items);
-                getline(&playerChoice, &len, stdin);
-                playerChoice[strcspn(playerChoice, "\r\n")] = 0;
-                printf("\n%d\n", selectItem(player1, playerChoice));
-            }
+            printf("\nPlayer 1\n");
+            combat(player1, player2);
         }
 
         else{
-            printf("what would you like to do\n 1:Select item \n 2:attack\n");
-            getline(&playerChoice, &len, stdin);
-            playerChoice[strcspn(playerChoice, "\r\n")] = 0;
-            if(strcmp(playerChoice,"attack") == 0){
-                player1->health = player1->health - player2->characterEquipment.weapon.damage;
-            }
+            printf("\nPlayer 2\n");
+            combat(player2, player1);
         }
         playerTurn = playerTurn ? 0 : 1;
     }
@@ -73,5 +73,5 @@ int main(){
     player1.items[0].name = malloc(sizeof(char) * strlen("potion") + 1);
     strcpy(player1.items[0].name, "potion");
     player1.items[1].name = NULL;
-    combat((struct character *) &player1, (struct character *) &player2);
+    combatLoop((struct character *) &player1, (struct character *) &player2);
 }

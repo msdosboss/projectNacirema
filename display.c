@@ -135,6 +135,10 @@ int main(int argc, char* argv[]){
     SDL_Delay(1000/FPS);
   }
   /* Release resources */
+	for(int i = 0; i < COLLUMNS; i++){
+		free(rects[i]);
+	}
+	free(rects);
   SDL_DestroyRenderer(rend);
   SDL_DestroyWindow(wind);
   SDL_Quit();

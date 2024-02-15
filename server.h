@@ -71,6 +71,7 @@ struct character{
     struct characterStats stats;
     int level;
     int health;
+    int canCombat;
 };
 
 struct square {
