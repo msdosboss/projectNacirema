@@ -46,6 +46,20 @@ uint32_t readInt(struct Buffer *buffer){
     return value;
 }
 
+void writeBitPacker(struct bitPackWrite * packer, int size, uint32_t value){
+    packer->scratch = packer->scratch >> packer->scratchBits;
+    packer->scratch = packer->scratch >> packer->scratchBits | value;
+    packer->scratch = packer->scratch << packer->scratchBits;
+    if(packer->scratchBits + size > 32){
+        *(packer->buffer) = *(packer->buffer) | packer->scratch;
+        packer->scratch = packer->scratch >> 32;
+        packer->scratchBits = packer->scratchBits + size - 32;
+        packer->wordIndex++;
+    }
+    packer->totalBits += size;
+    packer->scratchBits += size;
+}
+
 int main(){
     struct Buffer buffer;
     bufferMalloc((struct Buffer *) &buffer, 3, sizeof(uint32_t));
