@@ -11,7 +11,7 @@
 #define WIDTH 640
 #define HEIGHT 640
 #define SIZE 64
-#define PLAYERHMOD 1.5
+#define PLAYERHMOD 1.333
 #define FPS 60
 
 int main(int argc, char* argv[]){
@@ -56,6 +56,8 @@ int main(int argc, char* argv[]){
   }
   SDL_Rect rect = {(int) x_pos, (int) y_pos, SIZE, SIZE * PLAYERHMOD};
     SDL_Texture* texture = IMG_LoadTexture(rend, "Res/FED.png");
+    SDL_Texture* dirt = IMG_LoadTexture(rend, "Res/Dirt.png");
+    SDL_Texture* diamonds = IMG_LoadTexture(rend, "Res/Diamonds.png");
     //printf("Alpha channel modulation: %d\n", SDL_SetTextureAlphaMod(texture, 128));
   SDL_Event event;
   float movementCooldown = 0;
@@ -145,7 +147,7 @@ int main(int argc, char* argv[]){
     if (x_pos >= WIDTH - rect.w)
     	x_pos = WIDTH - rect.w;
     if (y_pos <= 0)
-    	y_pos = WIDTH - rect.h;
+    	y_pos = 0;
     rect.x = (int) x_pos;
     rect.y = (int) y_pos - (SIZE * (PLAYERHMOD - 1));
     /* Draw the rectangle */
@@ -157,12 +159,15 @@ int main(int argc, char* argv[]){
 		fflush(stdout);
     	for(int j = 0; j < ROWS; j++){
     		if(((j + 1) % 2 != 0 && (i + 1) % 2 != 0) || ((j + 1) % 2 == 0 && (i + 1) % 2 == 0)){
-				SDL_SetRenderDrawColor(rend, 255, 0, 255, 127);
+				//SDL_SetRenderDrawColor(rend, 255, 0, 255, 127);
+				SDL_RenderCopy(rend, diamonds, NULL, &rects[i][j]);
 			}
 			else{
-				SDL_SetRenderDrawColor(rend, 255, 0, 0, 127);
+				//SDL_SetRenderDrawColor(rend, 255, 0, 0, 127);
+				SDL_RenderCopy(rend, dirt, NULL, &rects[i][j]);
 			}
-    		SDL_RenderFillRect(rend, &rects[i][j]);
+			//SDL_SetTextureAlphaMod(dirt, 128);
+    		//SDL_RenderFillRect(rend, &rects[i][j]);
 			//SDL_RenderPresent(rend);
       	}
     }
