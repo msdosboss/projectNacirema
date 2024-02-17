@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include "networking.h"
 
-
 char *inputPort(int argc, char *argv[]){
     for(int i = 1; i < argc; i++){
         if(strcmp(argv[i],"--port") == 0 || strcmp(argv[i], "-p") == 0){
@@ -18,6 +17,7 @@ char *inputPort(int argc, char *argv[]){
         }
     }
 }
+
 
 void bufferMalloc(struct Buffer *buffer, int n, int sizeEle){
     buffer->index = 0;
@@ -46,28 +46,59 @@ uint32_t readInt(struct Buffer *buffer){
     return value;
 }
 
-void writeBitPacker(struct bitPackWrite * packer, int size, uint32_t value){
-    packer->scratch = packer->scratch >> packer->scratchBits;
-    packer->scratch = packer->scratch >> packer->scratchBits | value;
-    packer->scratch = packer->scratch << packer->scratchBits;
-    if(packer->scratchBits + size > 32){
-        *(packer->buffer) = *(packer->buffer) | packer->scratch;
-        packer->scratch = packer->scratch >> 32;
-        packer->scratchBits = packer->scratchBits + size - 32;
-        packer->wordIndex++;
-    }
-    packer->totalBits += size;
-    packer->scratchBits += size;
+writeBitPackerInit(struct bitPackWrite * packer, int size){
+    packer->scratch = 0;
+    packer->scratchBits = 0;
+    packer->totalBits = 0;
+    packer->wordIndex = 0;
+    packer->buffer = malloc(sizeof(uint32_t) * size);
 }
 
+readBitPackerInit(struct bitPackWrite * packer){
+    packer->scratch = 0;
+    packer->scratchBits = 0;
+    packer->numBitsRead = 0;
+    packer->wordIndex = 0;
+}
+
+void writeBitPacker(struct bitPackWrite * packer, int size, uint32_t value){
+    packer->scratch = packer->scratch | (value & ((1 << size) - 1) << packer->scratchBits);
+    packer->scratchBits += size;
+    printf("\n%d\n", packer->scratch);
+    if(packer->scratchBits >= 32){
+        *(packer->buffer + packer->wordIndex) = packer->scratch;
+        packer->scratch = packer->scratch << 32;
+        packer->scratchBits -= 32;
+        packer->wordIndex++;
+    }
+    packer->totalBits += size;   
+}
+
+uint32_t readBitPacker(struct bitPackWrite * packer, int size){
+    uint32_t value;
+    memset(&value, 0, 4);
+    if(packer->scratchBits < size){
+        packer->scratch = (*(packer->buffer + packer->wordIndex) << packer->scratchBits);
+        packer->scratchBits += 32;
+        packer->wordIndex++;
+    }
+    value = packer->scratch & ((1 << size) - 1);
+    packer->numBitsRead += size;
+    packer->scratch >>= size;
+    packer->scratchBits -= size;
+    return value;
+    
+}
+
+
 int main(){
-    struct Buffer buffer;
-    bufferMalloc((struct Buffer *) &buffer, 3, sizeof(uint32_t));
-    writeInt((struct Buffer *) &buffer, 3);
-    writeInt((struct Buffer *) &buffer, 6);
-    writeInt((struct Buffer *) &buffer, 60);
-    buffer.index = 0;
-    printf("\n%d",readInt((struct Buffer *) &buffer));
-    printf("\n%d",readInt((struct Buffer *) &buffer));
-    printf("\n%d",readInt((struct Buffer *) &buffer));
+    struct bitPackWrite packer;
+    writeBitPackerInit(&packer, 4);
+    writeBitPacker(&packer, 2, 2);
+    writeBitPacker(&packer, 3, 7);
+    writeBitPacker(&packer, 3, 6);
+    readBitPackerInit(&packer);
+    //printf("\n%d\n", readBitPacker(&packer, 3));
+    //printf("\n%d\n", readBitPacker(&packer, 2));
+    //printf("\n%d\n", readBitPacker(&packer, 3));
 }
