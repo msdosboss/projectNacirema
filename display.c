@@ -11,6 +11,7 @@
 #define WIDTH 640
 #define HEIGHT 640
 #define SIZE 64
+#define PLAYERHMOD 1.5
 #define FPS 60
 
 int main(int argc, char* argv[]){
@@ -52,11 +53,12 @@ int main(int argc, char* argv[]){
     for(int j = 0; j < ROWS; j++){
 	  rects[i][j] = (SDL_Rect){i * SIZE, j * SIZE, SIZE, SIZE};
     }
-  } 
-  SDL_Rect rect = {(int) x_pos, (int) y_pos, SIZE, SIZE};
+  }
+  SDL_Rect rect = {(int) x_pos, (int) y_pos, SIZE, SIZE * PLAYERHMOD};
+    SDL_Texture* texture = IMG_LoadTexture(rend, "Res/FED.png");
+    //printf("Alpha channel modulation: %d\n", SDL_SetTextureAlphaMod(texture, 128));
   SDL_Event event;
-  int xHist = 0;
-  int yHist = 0;
+  float movementCooldown = 0;
   while (running)
   {
     /* Process events */
@@ -87,8 +89,6 @@ int main(int argc, char* argv[]){
 	      down_pressed = true;
 	      break;
             default:
-	      xHist = 0;
-	      yHist = 0;
               break;
             }
           break;
@@ -123,8 +123,21 @@ int main(int argc, char* argv[]){
     SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
     SDL_RenderClear(rend);
     /* Move the rectangle */
-    x_change = right_pressed - left_pressed;
-	y_change = -1 * (up_pressed - down_pressed);
+    x_change = y_change = 0;
+
+    //printf("movementCooldown: %f\n", movementCooldown);
+    //printf("keys pressed: %d\n", right_pressed + left_pressed + up_pressed + down_pressed);
+    if(movementCooldown <= 0 && (right_pressed || left_pressed || up_pressed || down_pressed)){
+	    //printf("moving\n");
+	    movementCooldown =  0.3;
+	    x_change = right_pressed - left_pressed;
+	    y_change = -1 * (up_pressed - down_pressed);
+    }
+    else if (movementCooldown > 0){
+	    //printf("Subtracting %f from movementCooldown\n", 1/(float)FPS);
+
+	    movementCooldown = movementCooldown - (1 /(float)FPS);
+    }
     x_pos += x_change * SIZE;
     y_pos += y_change * SIZE;
     if (x_pos <= 0)
@@ -134,7 +147,7 @@ int main(int argc, char* argv[]){
     if (y_pos <= 0)
     	y_pos = WIDTH - rect.h;
     rect.x = (int) x_pos;
-    rect.y = (int) y_pos;
+    rect.y = (int) y_pos - (SIZE * (PLAYERHMOD - 1));
     /* Draw the rectangle */
     //SDL_SetRenderDrawColor(rend, 255, 0, 255, 127);
     //SDL_RenderFillRect(rend, &rect);
@@ -157,7 +170,6 @@ int main(int argc, char* argv[]){
     //Draw player
     
     
-    SDL_Texture* texture = IMG_LoadTexture(rend, "Res/Player.png");
     SDL_RenderCopy(rend, texture, NULL, &rect);
     
     /* Draw to window and loop */
