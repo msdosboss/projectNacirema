@@ -4,12 +4,13 @@
 //		gcc display.c -I"SDL2\include\SDL2" -L"SDL2\lib" -Wall -lmingw32 -lSDL2main -lSDL2 -o display.exe
 #include <stdio.h>
 #include <stdbool.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #define COLLUMNS 10
 #define ROWS 10
 #define WIDTH 640
 #define HEIGHT 640
-#define SIZE 200
+#define SIZE 64
 #define FPS 60
 
 int main(int argc, char* argv[]){
@@ -42,18 +43,20 @@ int main(int argc, char* argv[]){
     return 0;
   }
   /* Main loop */
-  bool running = true, left_pressed = false, right_pressed = false;
-  float x_pos = (WIDTH-SIZE)/2, y_pos = (HEIGHT-SIZE)/2, x_change = 0, y_change = 0;
+  bool running = true, left_pressed = false, right_pressed = false, up_pressed = false, down_pressed = false;
+  float x_pos = (WIDTH/SIZE)/2*SIZE, y_pos = (HEIGHT/SIZE)/2*SIZE, x_change = 0, y_change = 0;
   SDL_Rect **rects;
   rects = malloc(sizeof(SDL_Rect *) * COLLUMNS);
   for(int i = 0; i < COLLUMNS; i++){
     rects[i] = malloc(sizeof(SDL_Rect) * ROWS);
     for(int j = 0; j < ROWS; j++){
-	  rects[i][j] = (SDL_Rect){i * 64, j * 64, 64, 64};
+	  rects[i][j] = (SDL_Rect){i * SIZE, j * SIZE, SIZE, SIZE};
     }
   } 
   SDL_Rect rect = {(int) x_pos, (int) y_pos, SIZE, SIZE};
   SDL_Event event;
+  int xHist = 0;
+  int yHist = 0;
   while (running)
   {
     /* Process events */
@@ -75,7 +78,17 @@ int main(int argc, char* argv[]){
             case SDL_SCANCODE_RIGHT:
               right_pressed = true;
               break;
+	case SDL_SCANCODE_W:
+	case SDL_SCANCODE_UP:
+	      up_pressed = true;
+	      break;
+	case SDL_SCANCODE_S:
+	case SDL_SCANCODE_DOWN:
+	      down_pressed = true;
+	      break;
             default:
+	      xHist = 0;
+	      yHist = 0;
               break;
             }
           break;
@@ -90,6 +103,14 @@ int main(int argc, char* argv[]){
             case SDL_SCANCODE_RIGHT:
               right_pressed = false;
               break;
+	case SDL_SCANCODE_W:
+	case SDL_SCANCODE_UP:
+	      up_pressed = false;
+	      break;
+	case SDL_SCANCODE_S:
+	case SDL_SCANCODE_DOWN:
+	      down_pressed = false;
+	      break;
             default:
               break;
             }
@@ -103,20 +124,22 @@ int main(int argc, char* argv[]){
     SDL_RenderClear(rend);
     /* Move the rectangle */
     x_change = right_pressed - left_pressed;
-	//y_change = up_pressed - down_pressed;
-    x_pos += x_change;
-    y_pos += y_change;
+	y_change = -1 * (up_pressed - down_pressed);
+    x_pos += x_change * SIZE;
+    y_pos += y_change * SIZE;
     if (x_pos <= 0)
     	x_pos = 0;
     if (x_pos >= WIDTH - rect.w)
     	x_pos = WIDTH - rect.w;
     if (y_pos <= 0)
-    	y_pos = 0;
+    	y_pos = WIDTH - rect.h;
     rect.x = (int) x_pos;
     rect.y = (int) y_pos;
     /* Draw the rectangle */
     //SDL_SetRenderDrawColor(rend, 255, 0, 255, 127);
     //SDL_RenderFillRect(rend, &rect);
+
+    //Draw base
     for(int i = 0; i < COLLUMNS; i++){
 		fflush(stdout);
     	for(int j = 0; j < ROWS; j++){
@@ -129,7 +152,14 @@ int main(int argc, char* argv[]){
     		SDL_RenderFillRect(rend, &rects[i][j]);
 			//SDL_RenderPresent(rend);
       	}
-    } 
+    }
+
+    //Draw player
+    
+    
+    SDL_Texture* texture = IMG_LoadTexture(rend, "Res/Player.png");
+    SDL_RenderCopy(rend, texture, NULL, &rect);
+    
     /* Draw to window and loop */
     SDL_RenderPresent(rend);
     SDL_Delay(1000/FPS);
