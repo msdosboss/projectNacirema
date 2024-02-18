@@ -64,7 +64,6 @@ readBitPackerInit(struct bitPackWrite * packer){
 void writeBitPacker(struct bitPackWrite * packer, int size, uint32_t value){
     packer->scratch = packer->scratch | ((value & ((1 << size) - 1)) << packer->scratchBits);
     packer->scratchBits += size;
-    //printf("\n%d\n", packer->scratch);
     if(packer->scratchBits >= 32){
         *(packer->buffer + packer->wordIndex) = packer->scratch;
         packer->scratch = packer->scratch << 32;
