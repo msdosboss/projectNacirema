@@ -27,6 +27,8 @@ char *inputPort(int, char*[]);
 void bufferMalloc(struct Buffer *, int, int);
 void writeInt(struct Buffer *, uint32_t);
 uint32_t readInt(struct Buffer *);
+void writeBitPackerInit(struct bitPackWrite *, int);
+void readBitPackerInit(struct bitPackWrite *);
 void writeBitPacker(struct bitPackWrite *, int, uint32_t);
 uint32_t readBitPacker(struct bitPackWrite *, int);
 

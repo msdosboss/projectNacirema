@@ -46,7 +46,7 @@ uint32_t readInt(struct Buffer *buffer){
     return value;
 }
 
-writeBitPackerInit(struct bitPackWrite * packer, int size){
+void writeBitPackerInit(struct bitPackWrite * packer, int size){
     packer->scratch = 0;
     packer->scratchBits = 0;
     packer->totalBits = 0;
@@ -54,7 +54,7 @@ writeBitPackerInit(struct bitPackWrite * packer, int size){
     packer->buffer = malloc(sizeof(uint32_t) * size);
 }
 
-readBitPackerInit(struct bitPackWrite * packer){
+void readBitPackerInit(struct bitPackWrite * packer){
     packer->scratch = 0;
     packer->scratchBits = 0;
     packer->numBitsRead = 0;
@@ -79,6 +79,10 @@ void writeBitPacker(struct bitPackWrite * packer, int size, uint32_t value){
 uint32_t readBitPacker(struct bitPackWrite * packer, int size){
     uint32_t value;
     memset(&value, 0, 4);
+    if(packer->totalBits < size){
+        fprintf(stderr, "Size is larger than the totalBits left\n");
+        exit(EXIT_FAILURE);
+    }
     if(packer->scratchBits < size){
         packer->scratch = (*(packer->buffer + packer->wordIndex) << packer->scratchBits);
         packer->scratchBits += 32;
@@ -88,12 +92,13 @@ uint32_t readBitPacker(struct bitPackWrite * packer, int size){
     packer->numBitsRead += size;
     packer->scratch >>= size;
     packer->scratchBits -= size;
+    packer->totalBits -= size;
     return value;
     
 }
 
 
-int main(){
+/*int main(){
     struct bitPackWrite packer;
     writeBitPackerInit(&packer, 4);
     writeBitPacker(&packer, 2, 2);
@@ -103,4 +108,4 @@ int main(){
     printf("\n%d\n", readBitPacker(&packer, 2));
     printf("\n%d\n", readBitPacker(&packer, 3));
     printf("\n%d\n", readBitPacker(&packer, 3));
-}
+}*/

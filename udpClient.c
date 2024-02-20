@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "networking.h"
 
 int main(int argc, char *argv[]){
     int port = 5456;
@@ -20,7 +21,9 @@ int main(int argc, char *argv[]){
             }
         }
     }
-
+    struct bitPackWrite packer;
+    writeBitPackerInit(&packer, 4);
+    
 
 
     while(1){
@@ -45,7 +48,7 @@ int main(int argc, char *argv[]){
             return -2;
         }*/
 
-
+        addrLen = sizeof(addr);
         char *msg;
         size_t len = 0;
         getline(&msg, &len, stdin);
@@ -59,13 +62,23 @@ int main(int argc, char *argv[]){
         }
  
         char response[1024];
-        if(recvfrom(fd, response, sizeof(response), 0, (struct sockaddr *) &addr, &addrLen) < 0){
+        if(recvfrom(fd, packer.buffer, sizeof(packer.buffer) + 1, 0, (struct sockaddr *) &addr, &addrLen) < 0){
             perror("Failed to recv");
             return -4;
         }
-        printf("server response is %s\n", response);
+        if(recvfrom(fd, &(packer.totalBits), sizeof(packer.totalBits) + 1, 0, (struct sockaddr *) &addr, &addrLen) < 0){
+            perror("Failed to recv");
+            return -5;
+        }
+        //recvfrom(fd, response, sizeof(response), 0, (struct sockaddr *) &addr, &addrLen);
+        //printf("server response is %s\n", response);
 
-        close(fd);    
+        close(fd);
+        readBitPackerInit(&packer);
+        printf("\n%d\n", readBitPacker(&packer, 2));
+        printf("\n%d\n", readBitPacker(&packer, 3));
+        printf("\n%d\n", readBitPacker(&packer, 3));
+
     }
     
     return 0;

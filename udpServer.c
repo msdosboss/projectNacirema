@@ -5,6 +5,7 @@
 #include <netdb.h>
 #include <errno.h>
 #include <mysql/mysql.h>            //This is how I have been compiling with this library gcc -o server -L/usr/lib/mysql -lmysqlclient server.c
+#include "networking.h"
 
 char **sqlQuery(MYSQL *conn, const char *query){
     char **queryResults;
@@ -97,6 +98,12 @@ int main(int argc, char *argv[]){
         }
     }
     
+    struct bitPackWrite packer;
+    writeBitPackerInit(&packer, 4);
+    writeBitPacker(&packer, 2, 2);
+    writeBitPacker(&packer, 3, 7);
+    writeBitPacker(&packer, 3, 6);
+    
     const int fd = socket(AF_INET, SOCK_DGRAM, 0); //SOCK_STREAM
     if(fd == -1){
         perror("socket failed to create\n");
@@ -119,8 +126,11 @@ int main(int argc, char *argv[]){
         memset(&caddr, 0, sizeof(caddr));
         socklen_t caddrLen = sizeof(caddr);
         char buf[1024];
+        printf("\ntotalBits is %d\n", packer.totalBits);
         if(recvfrom(fd, buf, sizeof(buf), 0, (struct sockaddr *) &caddr, &caddrLen) > 0){
-            sendto(fd, "Orca", sizeof("Orca") + 1, 0, (struct sockaddr *) &caddr, caddrLen);
+            sendto(fd, packer.buffer, sizeof(packer.buffer) + 1, 0, (struct sockaddr *) &caddr, caddrLen);
+            sendto(fd, &(packer.totalBits), sizeof(packer.totalBits) + 1, 0, (struct sockaddr *) &caddr, caddrLen);
+            //sendto(fd, "Orca", sizeof("Orca") + 1, 0, (struct sockaddr *) &caddr, caddrLen);
         }
         printf("%s\n", buf);
         if(strcmp(buf,"close") == 0){
